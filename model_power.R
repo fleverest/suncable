@@ -11,5 +11,8 @@ wind <- readxl::read_excel(
   )
 
 
-solar <- read.csv2("data/SunCable-15 year Time Series-Solar energy-570_bi_6.csv", sep = ',', skip = 1)[, c(2, 3)]
+solar <- read_csv("data/SunCable-15 year Time Series-Solar energy-570_bi_6.csv",
+                  col_types = cols_only(col_skip(),
+                                        col_datetime(format = "%d/%m/%Y %H:%M"),
+                                        col_guess()))
 names(solar) <- c("datetime", "solar_energy")
