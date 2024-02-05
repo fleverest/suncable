@@ -7,7 +7,7 @@ wind <- readxl::read_excel(
   col_names = c("datetime", "year", "windspeed", "net_out_after_export")
 ) |>
   mutate(
-    date = ymd_hms("1993-01-01 00:00:00") + hours(seq(1, n())))
+    date = ymd_hms("1993-01-01 00:00:00") + hours(seq(1, n()))
   )
 
 
