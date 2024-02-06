@@ -1,4 +1,4 @@
-box::use(lib/read_data[wind, solar])
+box::use(./read_data[wind, solar])
 
 library(tidyverse)
 library(sarima)
