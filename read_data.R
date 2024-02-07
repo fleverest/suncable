@@ -1,5 +1,5 @@
 box::use(
-  dplyr[select, mutate, n, rename],
+  dplyr[select, mutate, n, rename, as_tibble],
   lubridate[ymd_hms, hours, force_tz],
   readr[read_csv],
   vroom[...]
@@ -28,3 +28,5 @@ solar <- read_csv(
 ) |>
   rename(date = "Date and time", solar_energy = "Energy produced [kWh]") |>
   mutate(date = force_tz(date, "Australia/Darwin"))
+
+ws <- merge(wind, solar) |> as_tibble()
