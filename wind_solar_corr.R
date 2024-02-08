@@ -1,5 +1,6 @@
 box::use(./read_data[ws])
 
+library(ggplot2)
 library(tidyverse)
 library(forecast)
 
@@ -107,40 +108,3 @@ ws_month_day |>
   filter(hour(date) == 2) |>
   ggplot(aes(x = wind_energy)) +
   geom_histogram()
-
-
-# wind solar heatmap
-ws |>
-  mutate(
-    wind_bin = cut(wind_energy, 20),
-    solar_bin = cut(solar_energy, 20)
-  ) |>
-  count()
-
-# wind solar scatter
-ws |>
-  filter(year(date) < 2008) |>
-  ggplot(aes(x=solar_energy, y=wind_energy)) + geom_point()
-
-# Visualize daily distribution
-coeff <- mean(ws$solar_energy) / mean(ws$wind_energy)
-ws |>
-  group_by(hr = hour(date)) |>
-  summarize(
-    wind25 = quantile(wind_energy, 0.25),
-    wind50 = median(wind_energy),
-    wind75 = quantile(wind_energy, 0.75),
-    solar25 = quantile(solar_energy, 0.25),
-    solar50 = median(solar_energy),
-    solar75 = quantile(solar_energy, 0.75)
-  ) |>
-  ggplot(aes(x = hr)) +
-  geom_point(aes(y = solar50, colour = "Solar")) +
-  geom_point(aes(y = wind50 * coeff, colour = "Wind")) +
-  scale_y_continuous(
-    name = "Solar Energy",
-    sec.axis = sec_axis(
-      trans = ~ . * coeff,
-      name = "Wind Energy"
-    )
-  )
