@@ -1,2 +1,4 @@
 data/*
 plots/*
+*.pdf
+*.csv
