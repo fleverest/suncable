@@ -30,3 +30,12 @@ solar <- read_csv(
   mutate(date = force_tz(date, "Australia/Darwin"))
 
 ws <- merge(wind, solar) |> as_tibble()
+
+
+# Sanity check of solar data.
+# The first year should add up to 2672.360698 GWh.
+library(tidyverse)
+solar |>
+  filter(((year(date) == 2006) & (month(date) >= 7)) |
+         ((year(date) == 2007) & (month(date) <= 6))) |>
+  summarise(sum(solar_energy))
